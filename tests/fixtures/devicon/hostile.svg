@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- a deliberately hostile icon -->
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 64 64" width="64" height="64" x="8" y="8" onload="alert(1)">
+  <script type="text/javascript">window.stolen = document.cookie;</script>
+  <style>@import url(https://evil.example/theme.css);</style>
+  <defs>
+    <linearGradient id="grad"><stop offset="0" stop-color="#00add8"/><stop offset="1" stop-color="#000"/></linearGradient>
+    <clipPath id="clip"><rect width="64" height="64"/></clipPath>
+  </defs>
+  <image href="https://evil.example/tracker.png" width="64" height="64"/>
+  <use xlink:href="https://evil.example/sprite.svg#icon"/>
+  <use href="#grad"/>
+  <foreignObject width="64" height="64"><div xmlns="http://www.w3.org/1999/xhtml">escape</div></foreignObject>
+  <a href="javascript:alert(2)"><rect width="10" height="10" fill="url(https://evil.example/p.svg#p)"/></a>
+  <path d="M0 0h64v64H0z" fill="url(#grad)" clip-path="url(#clip)" onclick="alert(3)" style="fill:#00add8"/>
+  <rect width="8" height="8" style="fill:url(https://evil.example/p.svg#p)"/>
+  <rect width="8" height="8" fill="#fff" data-tracking="yes"/>
+</svg>
