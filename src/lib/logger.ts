@@ -35,3 +35,13 @@ export function logWarnOnce(
   emittedOnce.add(key);
   logWarn(message, context);
 }
+
+export function logErrorOnce(
+  key: string,
+  message: string,
+  context?: Record<string, unknown>,
+): void {
+  if (emittedOnce.has(key)) return;
+  emittedOnce.add(key);
+  logError(message, context);
+}
