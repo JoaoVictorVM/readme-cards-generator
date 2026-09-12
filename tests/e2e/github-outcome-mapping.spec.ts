@@ -3,15 +3,64 @@ import { siteConfig } from "../../src/lib/site-config";
 
 const GITHUB_TIMEOUT_MS = 5000;
 
-// The card endpoint (F05) does not exist yet. These specs are authored against
-// the F02 contract and are enabled once that consumer lands.
-test.describe.skip("github outcome mapping through the card endpoint", () => {
-  test("normalized fields render in card positions", () => {});
-  test("card endpoint maps not_found to 404", () => {});
-  test("card endpoint maps rate_limited to 403", () => {});
-  test("card endpoint maps upstream_error to 502", () => {});
-  test("card endpoint maps unexpected_error to 500", () => {});
-  test("both endpoints agree on existence", () => {});
+const MISSING = { owner: "badge-generate-no-such-owner-7f3a", repo: "nope" };
+
+function title(markup = "") {
+  return /<title>([^<]*)<\/title>/.exec(markup)?.[1] ?? "";
+}
+
+function textAt(markup = "", x = 0, y = 0) {
+  const pattern = new RegExp(`<text x="${x}" y="${y}"[^>]*>([^<]*)</text>`);
+  return pattern.exec(markup)?.[1] ?? "";
+}
+
+test.describe("github outcome mapping through the card endpoint", () => {
+  test("normalized fields render in card positions", async ({ request }) => {
+    const { owner, name } = siteConfig.showcaseRepository;
+    const body = await (await request.get(`/api/repo/${owner}/${name}`)).text();
+    expect(textAt(body, 92, 42)).toBe(name);
+    expect(textAt(body, 108, 66).startsWith("Updated")).toBe(true);
+    expect(body).toContain(`<a href="https://github.com/${owner}/${name}">`);
+  });
+
+  test("card endpoint maps not_found to 404", async ({ request }) => {
+    const response = await request.get(
+      `/api/repo/${MISSING.owner}/${MISSING.repo}`,
+    );
+    expect(response.status()).toBe(404);
+    expect(response.headers()["content-type"]).toBe(
+      "image/svg+xml; charset=utf-8",
+    );
+    expect(title(await response.text())).toBe("Repository not found");
+  });
+
+  // `rate_limited` → 403, `upstream_error` → 502 and `unexpected_error` → 500
+  // cannot be provoked against the live API. They are asserted through the
+  // dependency seam in tests/unit/repo-card/handle-repo-card-request.test.ts
+  // ("github quota returns 403 distinct from 429", "upstream error returns
+  // 502 card", "unexpected error returns 500 card").
+
+  test("both endpoints agree on existence", async ({ request }) => {
+    const { owner, name } = siteConfig.showcaseRepository;
+    const existingValidate = await request.get(
+      `/api/validate?owner=${owner}&repo=${name}`,
+    );
+    expect((await existingValidate.json()).exists).toBe(true);
+    const existingCard = await request.get(`/api/repo/${owner}/${name}`);
+    expect(existingCard.status()).toBe(200);
+
+    const missingValidate = await request.get(
+      `/api/validate?owner=${MISSING.owner}&repo=${MISSING.repo}`,
+    );
+    expect(await missingValidate.json()).toEqual({
+      exists: false,
+      error: "not_found",
+    });
+    const missingCard = await request.get(
+      `/api/repo/${MISSING.owner}/${MISSING.repo}`,
+    );
+    expect(missingCard.status()).toBe(404);
+  });
 });
 
 test.describe("github outcome mapping through the validation endpoint", () => {
