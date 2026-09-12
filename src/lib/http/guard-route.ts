@@ -5,7 +5,11 @@ export type RouteHandler<Args extends unknown[] = []> = (
   ...args: Args
 ) => Promise<Response> | Response;
 
-export type FallbackResponseFactory = (error: unknown) => Response;
+export type FallbackResponseFactory<Args extends unknown[] = []> = (
+  error: unknown,
+  request: Request,
+  ...args: Args
+) => Response;
 
 function errorName(error: unknown): string {
   if (error instanceof Error) return error.name;
@@ -15,7 +19,7 @@ function errorName(error: unknown): string {
 export function guardRoute<Args extends unknown[] = []>(
   routeLabel: string,
   handler: RouteHandler<Args>,
-  fallback: FallbackResponseFactory,
+  fallback: FallbackResponseFactory<Args>,
 ): (request: Request, ...args: Args) => Promise<Response> {
   return async (request, ...args) => {
     try {
@@ -26,7 +30,7 @@ export function guardRoute<Args extends unknown[] = []>(
         error: errorName(error),
       });
       try {
-        return fallback(error);
+        return fallback(error, request, ...args);
       } catch (fallbackError) {
         logError("route fallback threw", {
           route: routeLabel,

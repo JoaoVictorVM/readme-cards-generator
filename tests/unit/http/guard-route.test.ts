@@ -130,4 +130,25 @@ describe("guardRoute", () => {
     expect(response.status).toBe(204);
     expect(seen).toEqual(["x", 2]);
   });
+
+  test("fallback receives request and handler arguments", async () => {
+    const thrown = new Error("boom");
+    const incoming = request();
+    let received: unknown[] = [];
+    const handler = guardRoute<[{ owner: string }]>(
+      ROUTE,
+      async () => {
+        throw thrown;
+      },
+      (error, req, params) => {
+        received = [error, req, params];
+        return fallback(error);
+      },
+    );
+    const response = await handler(incoming, { owner: "vercel" });
+    expect(response.status).toBe(500);
+    expect(received[0]).toBe(thrown);
+    expect(received[1]).toBe(incoming);
+    expect(received[2]).toEqual({ owner: "vercel" });
+  });
 });
