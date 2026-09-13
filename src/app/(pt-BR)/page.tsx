@@ -1,16 +1,13 @@
+import type { Metadata } from "next";
+import { LandingPage } from "@/components/landing/landing-page";
 import { getDictionary } from "@/i18n/get-dictionary";
 
-export default function PtBrHomePage() {
-  const dictionary = getDictionary("pt-BR");
+const dictionary = getDictionary("pt-BR");
 
-  return (
-    <section className="flex flex-col gap-4">
-      <h1 className="text-3xl font-semibold tracking-tight">
-        {dictionary.landing.title}
-      </h1>
-      <p className="max-w-2xl text-[var(--color-muted)]">
-        {dictionary.landing.subtitle}
-      </p>
-    </section>
-  );
+export const metadata: Metadata = {
+  description: dictionary.landing.metaDescription,
+};
+
+export default function PtBrHomePage() {
+  return <LandingPage locale="pt-BR" />;
 }
