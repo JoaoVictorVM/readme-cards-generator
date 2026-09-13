@@ -1,9 +1,16 @@
-import { REPO_CARD_QUERY_PARAMETERS } from "@/lib/repo-card/config";
+// Declared locally instead of imported from `@/lib/repo-card/config`: that
+// module binds the rate limiter and would drag the Upstash clients into the
+// client bundle through `copy-example-url.tsx`. Guarded by a drift test.
+export const EXAMPLE_CARD_QUERY_PARAMETERS = {
+  theme: "theme",
+  locale: "locale",
+  width: "width",
+} as const;
 
 export const EXAMPLE_CARD_QUERY_VALUES = {
-  [REPO_CARD_QUERY_PARAMETERS.theme]: "light",
-  [REPO_CARD_QUERY_PARAMETERS.locale]: "pt-BR",
-  [REPO_CARD_QUERY_PARAMETERS.width]: "480",
+  [EXAMPLE_CARD_QUERY_PARAMETERS.theme]: "light",
+  [EXAMPLE_CARD_QUERY_PARAMETERS.locale]: "pt-BR",
+  [EXAMPLE_CARD_QUERY_PARAMETERS.width]: "480",
 } as const;
 
 export const EXAMPLE_CARD_QUERY = new URLSearchParams(
