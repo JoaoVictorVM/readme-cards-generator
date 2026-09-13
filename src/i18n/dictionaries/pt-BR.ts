@@ -19,6 +19,34 @@ const dictionary = {
     subtitle:
       "Gere um card SVG com os dados reais do seu repositório do GitHub e cole direto no README.",
     ctaGenerate: "Gerar meu card",
+    metaDescription:
+      "Gere um card SVG com os dados reais do seu repositório do GitHub e cole no README com uma linha de Markdown.",
+    exampleCardAlt: "Card de exemplo do repositório {repository}",
+    exampleCardCaption: "Exemplo ao vivo: {repository}",
+    howItWorksTitle: "Como funciona",
+    step1Title: "Cole a URL do repositório",
+    step1Description:
+      "Informe o endereço de qualquer repositório público do GitHub.",
+    step2Title: "Clique em Gerar",
+    step2Description:
+      "Validamos o repositório e montamos o card com os dados reais.",
+    step3Title: "Copie o Markdown",
+    step3Description:
+      "Cole o snippet no README e o card passa a se atualizar sozinho.",
+    parametersTitle: "Parâmetros da URL",
+    parametersIntro:
+      "O gerador usa os padrões abaixo. Para personalizar, acrescente os parâmetros diretamente na URL do card.",
+    parameterNameHeader: "Parâmetro",
+    parameterValuesHeader: "Valores aceitos",
+    parameterDefaultHeader: "Padrão",
+    parameterDescriptionHeader: "Descrição",
+    themeDescription: "Paleta do card.",
+    localeDescription: "Idioma dos textos do card.",
+    widthDescription:
+      "Largura em pixels, de {min} a {max}. Valores fora da faixa são ajustados para o limite mais próximo.",
+    exampleUrlLabel: "URL de exemplo com os três parâmetros",
+    copyExampleLabel: "Copiar URL",
+    copiedExampleLabel: "Copiado!",
   },
   generator: {
     title: "Gerar card",
