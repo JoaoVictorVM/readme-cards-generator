@@ -106,7 +106,7 @@ test.describe("card endpoint", () => {
       expect(response.status()).toBe(200);
       const body = await response.text();
       expectSvgBody(body, 380);
-      expect(backgroundRect(body)).toContain('fill="#0d1117"');
+      expect(backgroundRect(body)).toContain('fill="#000000"');
     }
   });
 

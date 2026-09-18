@@ -14,7 +14,7 @@ import {
   resolveCardTheme,
   resolveCardWidth,
 } from "@/lib/card/options";
-import { paletteFor } from "@/lib/card/themes";
+import { CARD_PALETTES, paletteFor } from "@/lib/card/themes";
 import { truncateText } from "@/lib/card/truncate-text";
 import {
   ERROR_CARD_KINDS,
@@ -29,7 +29,8 @@ export const LAST_RESORT_SVG =
   `<svg xmlns="http://www.w3.org/2000/svg" width="${CARD_DEFAULT_WIDTH}"` +
   ` height="${CARD_HEIGHT}" viewBox="0 0 ${CARD_DEFAULT_WIDTH} ${CARD_HEIGHT}"` +
   ` role="img"><rect x="0.5" y="0.5" width="${CARD_DEFAULT_WIDTH - 1}"` +
-  ` height="${CARD_HEIGHT - 1}" rx="12" fill="#0d1117" stroke="#30363d"` +
+  ` height="${CARD_HEIGHT - 1}" rx="12" fill="${CARD_PALETTES.dark.surface}"` +
+  ` stroke="${CARD_PALETTES.dark.border}"` +
   ` stroke-width="1"/></svg>`;
 
 function isErrorCardKind(value: unknown): value is ErrorCardKind {

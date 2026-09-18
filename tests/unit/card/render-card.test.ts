@@ -145,9 +145,16 @@ describe("renderCard", () => {
   test("light theme palette", () => {
     const markup = renderCard(input({ theme: "light" }));
     expect(backgroundRect(markup)).toContain('fill="#ffffff"');
-    expect(markup).toContain(`fill="${CARD_PALETTES.light.primary}"`);
-    expect(markup).not.toContain(CARD_PALETTES.dark.surface);
-    expect(markup).not.toContain(CARD_PALETTES.dark.primary);
+    expect(backgroundRect(markup)).toContain(
+      `stroke="${CARD_PALETTES.light.border}"`,
+    );
+    expect(markup).toContain(
+      `<text x="92" y="42" font-size="16" font-weight="700"` +
+        ` fill="${CARD_PALETTES.light.primary}">`,
+    );
+    expect(markup).toContain(`fill="${CARD_PALETTES.light.buttonBackground}"`);
+    expect(markup).not.toContain(CARD_PALETTES.dark.border);
+    expect(markup).not.toContain(CARD_PALETTES.dark.secondary);
   });
 
   test("dark theme is default", () => {
