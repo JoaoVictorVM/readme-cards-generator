@@ -1,4 +1,4 @@
-import { showcaseCardPath } from "@/components/landing/example-url";
+import { EXAMPLE_CARD_STATIC_PATH } from "@/components/landing/config";
 import { format } from "@/i18n/get-dictionary";
 import type { Dictionary } from "@/i18n/types";
 import { CARD_DEFAULT_WIDTH, CARD_HEIGHT } from "@/lib/card";
@@ -14,11 +14,8 @@ export function ExampleCard({ dictionary }: ExampleCardProps) {
 
   return (
     <figure className="flex w-full max-w-[380px] flex-col gap-2">
-      {/* The card must be the exact endpoint response a README embeds, so the
-          image optimizer (which rejects SVG by default) is bypassed. */}
-      {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
-        src={showcaseCardPath()}
+        src={EXAMPLE_CARD_STATIC_PATH}
         alt={format(dictionary.landing.exampleCardAlt, { repository })}
         width={CARD_DEFAULT_WIDTH}
         height={CARD_HEIGHT}
