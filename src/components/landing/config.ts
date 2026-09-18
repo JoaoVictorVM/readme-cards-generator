@@ -1,6 +1,3 @@
-// Declared locally instead of imported from `@/lib/repo-card/config`: that
-// module binds the rate limiter and would drag the Upstash clients into the
-// client bundle through `copy-example-url.tsx`. Guarded by a drift test.
 export const EXAMPLE_CARD_QUERY_PARAMETERS = {
   theme: "theme",
   locale: "locale",
@@ -16,6 +13,8 @@ export const EXAMPLE_CARD_QUERY_VALUES = {
 export const EXAMPLE_CARD_QUERY = new URLSearchParams(
   EXAMPLE_CARD_QUERY_VALUES,
 ).toString();
+
+export const EXAMPLE_CARD_STATIC_PATH = "/example-card.svg";
 
 export const COPY_CONFIRMATION_MS = 2000;
 
