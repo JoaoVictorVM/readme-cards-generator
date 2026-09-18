@@ -1,10 +1,9 @@
 import { expect, test } from "@playwright/test";
 import en from "../../src/i18n/dictionaries/en";
 import ptBR from "../../src/i18n/dictionaries/pt-BR";
+import { EXAMPLE_CARD_STATIC_PATH } from "../../src/components/landing/config";
 import { siteConfig } from "../../src/lib/site-config";
 
-const SVG_TYPE = "image/svg+xml; charset=utf-8";
-const SUCCESS_CACHE = "public, s-maxage=3600, stale-while-revalidate=86400";
 const EXAMPLE_QUERY = "theme=light&locale=pt-BR&width=480";
 const VIEWPORT_WIDTHS = [360, 768, 1024, 1440];
 
@@ -20,36 +19,20 @@ const routes = [
 // Spec files run through Bun's plain JavaScript loader under
 // `bun --bun playwright`, so helpers infer their parameter types from defaults.
 
-// Every page load costs one GitHub call on the dev server (no edge cache), so
-// only the tests that assert on the live card let the image request through.
-const STUB_CARD =
-  '<svg xmlns="http://www.w3.org/2000/svg" width="380" height="150"' +
-  ' viewBox="0 0 380 150" role="img"><title>stub</title></svg>';
-
-const LIVE_CARD_TESTS = new Set(["example card loads from api route"]);
-
 function title(markup = "") {
   return /<title>([^<]*)<\/title>/.exec(markup)?.[1] ?? "";
-}
-
-function viewBox(markup = "") {
-  return /viewBox="([^"]*)"/.exec(markup)?.[1] ?? "";
 }
 
 for (const route of routes) {
   test.describe(`landing page ${route.path}`, () => {
     const { landing } = route.dictionary;
 
-    test.beforeEach(async ({ page }, testInfo) => {
-      if (LIVE_CARD_TESTS.has(testInfo.title)) return;
+    // The example card is a static asset, so page loads never call the card
+    // endpoint (and therefore never spend GitHub quota). Guarded below.
+    test.beforeEach(async ({ page }) => {
       await page.route(
         (url) => url.pathname === CARD_PATH,
-        (handler) =>
-          handler.fulfill({
-            status: 200,
-            contentType: SVG_TYPE,
-            body: STUB_CARD,
-          }),
+        (handler) => handler.abort(),
       );
     });
 
@@ -71,16 +54,30 @@ for (const route of routes) {
       }
     });
 
-    test("example card loads from api route", async ({ page }) => {
+    test("example card loads from static asset", async ({ page }) => {
       const cardResponse = page.waitForResponse(
-        (response) => new URL(response.url()).pathname === CARD_PATH,
+        (response) =>
+          new URL(response.url()).pathname === EXAMPLE_CARD_STATIC_PATH,
       );
       await page.goto(route.path);
       const image = page.locator("figure img");
-      await expect(image).toHaveAttribute("src", CARD_PATH);
+      await expect(image).toHaveAttribute("src", EXAMPLE_CARD_STATIC_PATH);
       const response = await cardResponse;
       expect(response.status()).toBe(200);
-      expect(response.headers()["content-type"]).toBe(SVG_TYPE);
+      expect(response.headers()["content-type"]).toContain("image/svg+xml");
+      const body = await response.text();
+      expect(body.startsWith("<svg")).toBe(true);
+      expect(title(body)).toBe(REPOSITORY);
+    });
+
+    test("example card never calls the card endpoint", async ({ page }) => {
+      let endpointCalls = 0;
+      page.on("request", (request) => {
+        if (new URL(request.url()).pathname === CARD_PATH) endpointCalls += 1;
+      });
+      await page.goto(route.path);
+      await expect(page.locator("figure img")).toBeVisible();
+      expect(endpointCalls).toBe(0);
     });
 
     test("cta links to locale generator", async ({ page }) => {
@@ -220,53 +217,36 @@ for (const route of routes) {
   });
 }
 
-test.describe("live example integration with the card endpoint", () => {
-  test("live example renders f05 response", async ({ page }) => {
-    const cardResponse = page.waitForResponse(
-      (response) => new URL(response.url()).pathname === CARD_PATH,
-    );
+test.describe("static example card asset", () => {
+  test("static example decodes at the card size", async ({ page }) => {
     await page.goto("/");
-    const response = await cardResponse;
-    const body = await response.text();
-    expect(body.startsWith("<svg")).toBe(true);
-    expect(title(body)).toBe(REPOSITORY);
     // `document.images` is typed as HTMLImageElement, unlike querySelector.
     await expect
       .poll(() =>
         page.evaluate(
           () =>
             Array.from(document.images).find((node) =>
-              node.getAttribute("src")?.startsWith("/api/repo/"),
+              node.getAttribute("src")?.endsWith(".svg"),
             )?.complete ?? false,
         ),
       )
       .toBe(true);
     const natural = await page.evaluate(() => {
       const image = Array.from(document.images).find((node) =>
-        node.getAttribute("src")?.startsWith("/api/repo/"),
+        node.getAttribute("src")?.endsWith(".svg"),
       );
       return [image?.naturalWidth ?? 0, image?.naturalHeight ?? 0];
     });
     expect(natural).toEqual([380, 150]);
   });
 
-  test("live example is edge cacheable", async ({ page }) => {
-    const cardResponse = page.waitForResponse(
-      (response) => new URL(response.url()).pathname === CARD_PATH,
-    );
-    await page.goto("/");
-    const response = await cardResponse;
-    expect(response.headers()["cache-control"]).toBe(SUCCESS_CACHE);
-  });
-
-  test("live example matches direct fetch", async ({ page, request }) => {
-    const cardResponse = page.waitForResponse(
-      (response) => new URL(response.url()).pathname === CARD_PATH,
-    );
-    await page.goto("/");
-    const served = await (await cardResponse).text();
-    const direct = await (await request.get(CARD_PATH)).text();
-    expect(title(direct)).toBe(title(served));
-    expect(viewBox(direct)).toBe(viewBox(served));
+  test("static example is served directly", async ({ request }) => {
+    const response = await request.get(EXAMPLE_CARD_STATIC_PATH);
+    expect(response.status()).toBe(200);
+    expect(response.headers()["content-type"]).toContain("image/svg+xml");
+    const body = await response.text();
+    expect(body.startsWith("<svg")).toBe(true);
+    expect(body.endsWith("</svg>")).toBe(true);
+    expect(title(body)).toBe(REPOSITORY);
   });
 });
