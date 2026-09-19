@@ -64,6 +64,7 @@ const dictionary = {
     submitLabel: "Gerar",
     submittingLabel: "Verificando repositório...",
     resultHeading: "Seu card",
+    emptyState: "O card aparece aqui.",
     snippetLabel: "Snippet Markdown",
     copyLabel: "Copiar snippet",
     copiedLabel: "Copiado!",

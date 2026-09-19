@@ -8,6 +8,7 @@
   --border: #333333;
   --accent: #ffffff;
   --accent-foreground: #000000;
+  --warning: #d29922;
   --radius: 0.625rem;
 }
 
@@ -19,6 +20,7 @@
   --color-border: var(--border);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
+  --color-warning: var(--warning);
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, monospace;
   --radius-site: var(--radius);

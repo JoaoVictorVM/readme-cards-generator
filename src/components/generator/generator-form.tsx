@@ -1,6 +1,6 @@
 "use client";
 
-import { LoaderCircle } from "lucide-react";
+import { LoaderCircle, TriangleAlert } from "lucide-react";
 import {
   useEffect,
   useReducer,
@@ -8,6 +8,7 @@ import {
   useState,
   type FormEvent as ReactFormEvent,
 } from "react";
+import { GeneratorEmptyState } from "@/components/generator/generator-empty-state";
 import { GeneratorResult } from "@/components/generator/generator-result";
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/types";
@@ -109,16 +110,19 @@ export function GeneratorForm({
   };
 
   return (
-    <div className="flex flex-col gap-8" lang={locale}>
+    <div className="flex flex-col gap-12" lang={locale}>
       <form
         onSubmit={handleSubmit}
         noValidate
-        className="flex w-full max-w-2xl flex-col gap-2"
+        className="flex w-full max-w-2xl flex-col gap-3"
       >
-        <label htmlFor={INPUT_ID} className="text-sm font-medium">
+        <label
+          htmlFor={INPUT_ID}
+          className="font-mono text-xs tracking-wide text-muted uppercase"
+        >
           {dictionary.urlFieldLabel}
         </label>
-        <div className="flex flex-col gap-2 sm:flex-row">
+        <div className="flex flex-col gap-3 sm:flex-row">
           <input
             id={INPUT_ID}
             name="repository"
@@ -132,14 +136,14 @@ export function GeneratorForm({
             aria-invalid={error !== null ? "true" : undefined}
             aria-describedby={error !== null ? ERROR_ID : undefined}
             className={cn(
-              "min-w-0 flex-1 rounded-[var(--radius-site)] border border-[var(--color-border)] bg-[var(--color-background)] px-4 py-2 text-base outline-none focus-visible:border-[var(--color-accent)]",
-              error !== null && "border-red-400",
+              "h-12 w-full min-w-0 rounded-site border bg-surface px-4 font-mono text-sm outline-none placeholder:text-muted/60 focus-visible:border-foreground focus-visible:outline-none sm:flex-1",
+              error !== null && "border-warning",
             )}
           />
           <button
             type="submit"
             disabled={validating || coolingDown}
-            className="inline-flex shrink-0 items-center justify-center gap-2 rounded-[var(--radius-site)] border border-[var(--color-border)] px-4 py-2 text-sm font-medium transition-colors hover:border-[var(--color-accent)] disabled:cursor-not-allowed disabled:opacity-60"
+            className="inline-flex h-12 shrink-0 cursor-pointer items-center justify-center gap-2 rounded-full bg-accent px-6 text-sm font-semibold text-accent-foreground transition-opacity hover:opacity-85 disabled:cursor-not-allowed disabled:opacity-50"
           >
             {validating ? (
               <LoaderCircle
@@ -155,7 +159,15 @@ export function GeneratorForm({
           {validating ? dictionary.submittingLabel : null}
         </p>
         {error !== null ? (
-          <p id={ERROR_ID} role="alert" className="text-sm text-red-400">
+          <p
+            id={ERROR_ID}
+            role="alert"
+            className="flex items-center gap-2 text-sm"
+          >
+            <TriangleAlert
+              aria-hidden="true"
+              className="size-4 shrink-0 text-warning"
+            />
             {dictionary[ERROR_KEYS[error]]}
           </p>
         ) : null}
@@ -167,7 +179,9 @@ export function GeneratorForm({
           cardOrigin={cardOrigin}
           dictionary={dictionary}
         />
-      ) : null}
+      ) : (
+        <GeneratorEmptyState dictionary={dictionary} />
+      )}
     </div>
   );
 }

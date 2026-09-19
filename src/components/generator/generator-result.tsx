@@ -31,16 +31,14 @@ export function GeneratorResult({
     <section
       aria-labelledby="generator-result-heading"
       data-testid="generator-result"
-      className="flex flex-col gap-4"
+      className="flex flex-col gap-6 border-t pt-10"
     >
       <h2
         id="generator-result-heading"
-        className="text-xl font-semibold tracking-tight"
+        className="text-2xl font-semibold tracking-tight"
       >
         {dictionary.resultHeading}
       </h2>
-      {/* The card must be the exact endpoint response a README embeds, so the
-          image optimizer (which rejects SVG by default) is bypassed. */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         key={pair}
@@ -50,28 +48,30 @@ export function GeneratorResult({
         height={GENERATOR_IMAGE_HEIGHT}
         loading="eager"
         decoding="async"
-        className="h-auto max-w-full"
+        className="hero-rise h-auto max-w-full"
       />
-      <div className="flex flex-col gap-2">
+      <div className="flex max-w-2xl flex-col gap-3">
         <p
           id="generator-snippet-label"
-          className="text-sm font-medium text-[var(--color-muted)]"
+          className="font-mono text-xs tracking-wide text-muted uppercase"
         >
           {dictionary.snippetLabel}
         </p>
-        <pre
-          ref={snippetRef}
-          aria-labelledby="generator-snippet-label"
-          tabIndex={0}
-          className="overflow-x-auto rounded-[var(--radius-site)] border border-[var(--color-border)] px-4 py-3 font-mono text-sm break-all whitespace-pre-wrap"
-        >
-          {snippet}
-        </pre>
-        <CopyButton
-          text={snippet}
-          targetRef={snippetRef}
-          dictionary={dictionary}
-        />
+        <div className="flex flex-col gap-4 rounded-site border bg-surface p-4">
+          <pre
+            ref={snippetRef}
+            aria-labelledby="generator-snippet-label"
+            tabIndex={0}
+            className="overflow-x-auto font-mono text-sm leading-relaxed break-all whitespace-pre-wrap"
+          >
+            {snippet}
+          </pre>
+          <CopyButton
+            text={snippet}
+            targetRef={snippetRef}
+            dictionary={dictionary}
+          />
+        </div>
       </div>
     </section>
   );
