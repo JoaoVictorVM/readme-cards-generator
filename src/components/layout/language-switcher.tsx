@@ -33,7 +33,7 @@ export function LanguageSwitcher({
         return (
           <span key={target} className="flex items-center gap-1">
             {index > 0 ? (
-              <span aria-hidden="true" className="text-[var(--color-border)]">
+              <span aria-hidden="true" className="text-border">
                 |
               </span>
             ) : null}
@@ -45,8 +45,8 @@ export function LanguageSwitcher({
               className={cn(
                 "rounded px-1.5 py-0.5 font-medium transition-colors",
                 isActive
-                  ? "text-[var(--color-accent)]"
-                  : "text-[var(--color-muted)] hover:text-[var(--color-foreground)]",
+                  ? "text-foreground underline underline-offset-4"
+                  : "text-muted hover:text-foreground",
               )}
             >
               {localeLabels[target]}
