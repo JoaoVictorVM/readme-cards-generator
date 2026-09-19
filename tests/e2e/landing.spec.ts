@@ -1,7 +1,10 @@
 import { expect, test } from "@playwright/test";
 import en from "../../src/i18n/dictionaries/en";
 import ptBR from "../../src/i18n/dictionaries/pt-BR";
-import { EXAMPLE_CARD_STATIC_PATH } from "../../src/components/landing/config";
+import {
+  EXAMPLE_CARD_LIGHT_STATIC_PATH,
+  EXAMPLE_CARD_STATIC_PATH,
+} from "../../src/components/landing/config";
 import { siteConfig } from "../../src/lib/site-config";
 
 const EXAMPLE_QUERY = "theme=light&locale=pt-BR&width=480";
@@ -128,9 +131,40 @@ for (const route of routes) {
       await expect(width.locator("td").nth(1)).toHaveText("380");
     });
 
+    test("hero markdown embeds the showcase card url", async ({ page }) => {
+      await page.goto(route.path);
+      const markdown = page.getByLabel(landing.exampleMarkdownLabel);
+      await expect(markdown).toHaveCount(1);
+      const text = (await markdown.textContent()) ?? "";
+      expect(text.startsWith(`![${name}](http`)).toBe(true);
+      expect(text.endsWith(`${CARD_PATH})`)).toBe(true);
+      expect(text).not.toContain("?");
+    });
+
+    test("theme showcase renders both static cards", async ({ page }) => {
+      await page.goto(route.path);
+      const section = page.getByRole("region", { name: landing.themesTitle });
+      const images = section.locator("img");
+      await expect(images).toHaveCount(2);
+      await expect(images.nth(0)).toHaveAttribute(
+        "src",
+        EXAMPLE_CARD_STATIC_PATH,
+      );
+      await expect(images.nth(1)).toHaveAttribute(
+        "src",
+        EXAMPLE_CARD_LIGHT_STATIC_PATH,
+      );
+      await expect(section.locator("code")).toHaveText([
+        "?theme=dark",
+        "?theme=light",
+      ]);
+    });
+
     test("example url present and selectable", async ({ page }) => {
       await page.goto(route.path);
-      const code = page.locator("code", { hasText: CARD_PATH });
+      const code = page
+        .getByRole("region", { name: landing.parametersTitle })
+        .locator("code", { hasText: CARD_PATH });
       await expect(code).toHaveCount(1);
       const text = (await code.textContent()) ?? "";
       expect(text.endsWith(`${CARD_PATH}?${EXAMPLE_QUERY}`)).toBe(true);
@@ -144,7 +178,9 @@ for (const route of routes) {
     test("copy button writes clipboard", async ({ page, context }) => {
       await context.grantPermissions(["clipboard-read", "clipboard-write"]);
       await page.goto(route.path);
-      const code = page.locator("code", { hasText: CARD_PATH });
+      const code = page
+        .getByRole("region", { name: landing.parametersTitle })
+        .locator("code", { hasText: CARD_PATH });
       const expected = (await code.textContent()) ?? "";
       const button = page.getByRole("button", {
         name: landing.copyExampleLabel,
