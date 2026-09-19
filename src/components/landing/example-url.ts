@@ -49,7 +49,11 @@ export function showcaseCardPath(): string {
   return buildCardPath(owner, name);
 }
 
-export function buildExampleCardUrl(host: string): string {
+export function buildShowcaseCardUrl(host: string): string {
   const base = host.replace(/\/+$/, "");
-  return `${base}${showcaseCardPath()}?${EXAMPLE_CARD_QUERY}`;
+  return `${base}${showcaseCardPath()}`;
+}
+
+export function buildExampleCardUrl(host: string): string {
+  return `${buildShowcaseCardUrl(host)}?${EXAMPLE_CARD_QUERY}`;
 }
