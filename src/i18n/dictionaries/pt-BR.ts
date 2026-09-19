@@ -22,7 +22,15 @@ const dictionary = {
     metaDescription:
       "Gere um card SVG com os dados reais do seu repositório do GitHub e cole no README com uma linha de Markdown.",
     exampleCardAlt: "Card de exemplo do repositório {repository}",
-    exampleCardCaption: "Exemplo ao vivo: {repository}",
+    exampleCardCaption: "Exemplo: {repository}",
+    heroEyebrow: "Uma linha de Markdown. Um card SVG.",
+    ctaParameters: "Ver parâmetros",
+    exampleMarkdownLabel: "Markdown que gera o card abaixo",
+    themesTitle: "Dois temas, uma paleta",
+    themesIntro:
+      "O card é preto e branco nos dois sentidos. Escolha o tema pela URL e ele acompanha o fundo do seu README.",
+    themeDarkCaption: "tema escuro",
+    themeLightCaption: "tema claro",
     howItWorksTitle: "Como funciona",
     step1Title: "Cole a URL do repositório",
     step1Description:
