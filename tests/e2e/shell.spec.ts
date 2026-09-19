@@ -51,3 +51,20 @@ test("no hardcoded copy leaks between locales", async ({ page }) => {
   await page.goto("/");
   await expect(page.getByText(en.footer.attribution)).toHaveCount(0);
 });
+
+test("favicon is the svg card icon", async ({ page, request }) => {
+  await page.goto("/");
+  const href = await page
+    .locator('link[rel="icon"]')
+    .first()
+    .getAttribute("href");
+  expect(href).not.toBeNull();
+  expect(href).toContain("/icon.svg");
+  const response = await request.get(href ?? "");
+  expect(response.status()).toBe(200);
+  expect(response.headers()["content-type"]).toContain("image/svg+xml");
+  const body = await response.text();
+  expect(body.startsWith("<svg")).toBe(true);
+  expect(body).toContain('viewBox="0 0 32 32"');
+  expect(body).toContain("prefers-color-scheme: dark");
+});
