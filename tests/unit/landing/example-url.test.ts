@@ -5,6 +5,7 @@ import {
 } from "@/components/landing/config";
 import {
   buildExampleCardUrl,
+  buildShowcaseCardUrl,
   PARAMETER_ROWS,
   showcaseCardPath,
 } from "@/components/landing/example-url";
@@ -42,6 +43,14 @@ describe("buildExampleCardUrl", () => {
     expect(query.get("locale")).toBe("pt-BR");
     expect(query.get("width")).toBe("480");
     expect(EXAMPLE_CARD_QUERY).toBe("theme=light&locale=pt-BR&width=480");
+  });
+
+  test("showcase url is the example url without the query", () => {
+    const showcase = buildShowcaseCardUrl(HOST);
+    expect(showcase).toBe(`${HOST}${showcaseCardPath()}`);
+    expect(showcase).not.toContain("?");
+    expect(buildExampleCardUrl(HOST).startsWith(`${showcase}?`)).toBe(true);
+    expect(buildShowcaseCardUrl(`${HOST}/`)).toBe(showcase);
   });
 
   test("example url has no double slash", () => {

@@ -13,24 +13,21 @@ export function HowItWorks({ dictionary }: HowItWorksProps) {
   ];
 
   return (
-    <section aria-labelledby="how-it-works" className="flex flex-col gap-6">
-      <h2 id="how-it-works" className="text-2xl font-semibold tracking-tight">
+    <section aria-labelledby="how-it-works" className="flex flex-col gap-8">
+      <h2
+        id="how-it-works"
+        className="text-2xl font-semibold tracking-tight sm:text-3xl"
+      >
         {landing.howItWorksTitle}
       </h2>
-      <ol className="grid gap-4 sm:grid-cols-3">
+      <ol className="grid gap-8 border-t pt-8 sm:grid-cols-3 sm:gap-6">
         {steps.map((step, index) => (
-          <li
-            key={step.title}
-            className="flex flex-col gap-2 rounded-[var(--radius-site)] border border-[var(--color-border)] p-5"
-          >
-            <span
-              aria-hidden="true"
-              className="text-sm font-semibold text-[var(--color-accent)]"
-            >
-              {index + 1}
+          <li key={step.title} className="flex flex-col gap-3">
+            <span aria-hidden="true" className="font-mono text-xs text-muted">
+              {String(index + 1).padStart(2, "0")}
             </span>
-            <h3 className="font-medium">{step.title}</h3>
-            <p className="text-sm text-[var(--color-muted)]">
+            <h3 className="text-lg font-medium tracking-tight">{step.title}</h3>
+            <p className="text-sm leading-relaxed text-muted">
               {step.description}
             </p>
           </li>
