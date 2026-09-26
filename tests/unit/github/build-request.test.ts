@@ -31,7 +31,7 @@ describe("buildRepositoryRequest", () => {
   test("sends fixed user agent", () => {
     const { headers } = buildRepositoryRequest({ owner: "x", repo: "y" });
     expect(headers["User-Agent"]).toBe(GITHUB_USER_AGENT);
-    expect(headers["User-Agent"]).toStartWith("badge-generate/1.0 (+");
+    expect(headers["User-Agent"]).toStartWith("cards-generator/1.0 (+");
   });
 
   test("sends authorization when token present", () => {

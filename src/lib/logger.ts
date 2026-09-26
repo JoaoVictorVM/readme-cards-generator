@@ -1,4 +1,4 @@
-const PREFIX = "[badge-generate]";
+const PREFIX = "[cards-generator]";
 
 const emittedOnce = new Set<string>();
 
