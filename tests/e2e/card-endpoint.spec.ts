@@ -6,7 +6,7 @@ const GITHUB_TIMEOUT_MS = 5000;
 const SVG_TYPE = "image/svg+xml; charset=utf-8";
 const SUCCESS_CACHE = "public, s-maxage=3600, stale-while-revalidate=86400";
 const ERROR_CACHE = "public, s-maxage=60";
-const MISSING = { owner: "badge-generate-no-such-owner-7f3a", repo: "nope" };
+const MISSING = { owner: "cards-generator-no-such-owner-7f3a", repo: "nope" };
 const LONG_OWNER = "o".repeat(101);
 const REQUESTS = 60;
 
