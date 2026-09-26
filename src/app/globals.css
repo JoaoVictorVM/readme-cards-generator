@@ -33,6 +33,7 @@
 
   html {
     color-scheme: dark;
+    overflow-x: clip;
   }
 
   body {
@@ -80,6 +81,22 @@
 .hero-draw {
   transform-origin: top;
   animation: hero-draw 300ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes intro-fallback {
+  to {
+    opacity: 1;
+  }
+}
+
+.motion [data-hero-intro] {
+  opacity: 0;
+  animation: intro-fallback 0s 2.5s forwards;
+}
+
+.full-bleed {
+  width: 100vw;
+  margin-inline: calc(50% - 50vw);
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -20,7 +20,15 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <html
       lang={defaultLocale}
       className={`dark ${geistSans.variable} ${geistMono.variable}`}
+      suppressHydrationWarning
     >
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `if(window.matchMedia("(prefers-reduced-motion: no-preference)").matches)document.documentElement.classList.add("motion")`,
+          }}
+        />
+      </head>
       <body className="antialiased">{children}</body>
     </html>
   );
