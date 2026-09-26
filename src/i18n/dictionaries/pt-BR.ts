@@ -1,6 +1,6 @@
 const dictionary = {
   common: {
-    productName: "Badge Generate",
+    productName: "Cards Generator",
     skipToContent: "Pular para o conteúdo",
     loading: "Carregando...",
   },
