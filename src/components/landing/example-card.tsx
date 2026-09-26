@@ -1,4 +1,5 @@
 import { EXAMPLE_CARD_STATIC_PATH } from "@/components/landing/config";
+import { Tilt } from "@/components/motion/tilt";
 import { format } from "@/i18n/get-dictionary";
 import type { Dictionary } from "@/i18n/types";
 import { CARD_DEFAULT_WIDTH, CARD_HEIGHT } from "@/lib/card/config";
@@ -31,11 +32,7 @@ export function ExampleCard({ dictionary, markdown }: ExampleCardProps) {
         aria-hidden="true"
         className="ml-8 block h-8 w-px origin-top bg-border"
       />
-      <div
-        data-hero-intro
-        data-tilt
-        className="relative will-change-transform [transform-style:preserve-3d]"
-      >
+      <Tilt data-hero-intro>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={EXAMPLE_CARD_STATIC_PATH}
@@ -47,12 +44,7 @@ export function ExampleCard({ dictionary, markdown }: ExampleCardProps) {
           decoding="async"
           className="block h-auto max-w-full"
         />
-        <span
-          data-glare
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0 rounded-xl opacity-0 [background:radial-gradient(circle_at_var(--gx,50%)_var(--gy,50%),rgba(255,255,255,0.22),transparent_55%)]"
-        />
-      </div>
+      </Tilt>
       <p data-hero-intro className="mt-3 font-mono text-xs text-muted">
         {format(dictionary.landing.exampleCardCaption, { repository })}
       </p>
