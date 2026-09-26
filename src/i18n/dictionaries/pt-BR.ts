@@ -26,12 +26,15 @@ const dictionary = {
     heroEyebrow: "Uma linha de Markdown. Um card SVG.",
     ctaParameters: "Ver parâmetros",
     exampleMarkdownLabel: "Markdown que gera o card abaixo",
-    themesTitle: "Dois temas, uma paleta",
-    themesIntro:
-      "O card é preto e branco nos dois sentidos. Escolha o tema pela URL e ele acompanha o fundo do seu README.",
-    themeDarkCaption: "tema escuro",
-    themeLightCaption: "tema claro",
     howItWorksTitle: "Como funciona",
+    marqueeTitle: "Funciona com qualquer repositório público",
+    playgroundTitle: "Ajuste ao vivo",
+    playgroundIntro:
+      "Mude tema, idioma e largura e veja o card e a URL mudarem na hora.",
+    playgroundThemeLabel: "Tema",
+    playgroundLocaleLabel: "Idioma",
+    playgroundWidthLabel: "Largura",
+    playgroundUrlLabel: "URL do card",
     step1Title: "Cole a URL do repositório",
     step1Description:
       "Informe o endereço de qualquer repositório público do GitHub.",

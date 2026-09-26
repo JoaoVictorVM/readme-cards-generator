@@ -2,8 +2,8 @@ import { expect, test } from "@playwright/test";
 import en from "../../src/i18n/dictionaries/en";
 import ptBR from "../../src/i18n/dictionaries/pt-BR";
 import {
-  EXAMPLE_CARD_LIGHT_STATIC_PATH,
   EXAMPLE_CARD_STATIC_PATH,
+  MARQUEE_REPOSITORIES,
 } from "../../src/components/landing/config";
 import { siteConfig } from "../../src/lib/site-config";
 
@@ -141,23 +141,44 @@ for (const route of routes) {
       expect(text).not.toContain("?");
     });
 
-    test("theme showcase renders both static cards", async ({ page }) => {
+    test("marquee shows every repository as an inline card", async ({
+      page,
+    }) => {
       await page.goto(route.path);
-      const section = page.getByRole("region", { name: landing.themesTitle });
-      const images = section.locator("img");
-      await expect(images).toHaveCount(2);
-      await expect(images.nth(0)).toHaveAttribute(
-        "src",
-        EXAMPLE_CARD_STATIC_PATH,
+      const section = page.getByRole("region", { name: landing.marqueeTitle });
+      const named = section.locator("img:not([alt=''])");
+      await expect(named).toHaveCount(MARQUEE_REPOSITORIES.length * 2);
+      const sources = await named.evaluateAll((nodes) =>
+        nodes.map((node) => node.getAttribute("src") ?? ""),
       );
-      await expect(images.nth(1)).toHaveAttribute(
-        "src",
-        EXAMPLE_CARD_LIGHT_STATIC_PATH,
+      for (const src of sources) {
+        expect(src.startsWith("data:image/svg+xml")).toBe(true);
+      }
+    });
+
+    test("playground updates the card url live", async ({ page }) => {
+      await page.goto(route.path);
+      const section = page.getByRole("region", {
+        name: landing.playgroundTitle,
+      });
+      const url = section.locator("code");
+      await expect(url).toHaveText(new RegExp(`${CARD_PATH}$`));
+
+      await section.getByText("light", { exact: true }).click();
+      await section.getByText("pt-BR", { exact: true }).click();
+      await section
+        .getByRole("slider", { name: landing.playgroundWidthLabel })
+        .fill("500");
+
+      await expect(url).toHaveText(
+        new RegExp(`${CARD_PATH}\\?theme=light&locale=pt-BR&width=500$`),
       );
-      await expect(section.locator("code")).toHaveText([
-        "?theme=dark",
-        "?theme=light",
-      ]);
+      const card = section.locator("img");
+      await expect(card).toHaveAttribute("width", "500");
+      expect(await card.getAttribute("src")).toContain("data:image/svg+xml");
+
+      await section.getByText("dark", { exact: true }).click();
+      await expect(url).not.toHaveText(/theme=/);
     });
 
     test("example url present and selectable", async ({ page }) => {
@@ -182,20 +203,23 @@ for (const route of routes) {
         .getByRole("region", { name: landing.parametersTitle })
         .locator("code", { hasText: CARD_PATH });
       const expected = (await code.textContent()) ?? "";
-      const button = page.getByRole("button", {
+      const region = page.getByRole("region", {
+        name: landing.parametersTitle,
+      });
+      const button = region.getByRole("button", {
         name: landing.copyExampleLabel,
       });
       await expect(button).toBeVisible();
       await button.click();
       await expect(
-        page.getByRole("button", { name: landing.copiedExampleLabel }),
+        region.getByRole("button", { name: landing.copiedExampleLabel }),
       ).toBeVisible();
       const clipboard = await page.evaluate(() =>
         navigator.clipboard.readText(),
       );
       expect(clipboard).toBe(expected);
       await expect(
-        page.getByRole("button", { name: landing.copyExampleLabel }),
+        region.getByRole("button", { name: landing.copyExampleLabel }),
       ).toBeVisible({ timeout: 4000 });
     });
 

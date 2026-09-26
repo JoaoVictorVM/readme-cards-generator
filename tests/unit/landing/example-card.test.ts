@@ -1,10 +1,7 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, test } from "bun:test";
-import {
-  EXAMPLE_CARD_LIGHT_STATIC_PATH,
-  EXAMPLE_CARD_STATIC_PATH,
-} from "@/components/landing/config";
+import { EXAMPLE_CARD_STATIC_PATH } from "@/components/landing/config";
 import { CARD_DEFAULT_WIDTH } from "@/lib/card";
 import { CARD_PALETTES } from "@/lib/card/themes";
 import { siteConfig } from "@/lib/site-config";
@@ -17,10 +14,7 @@ import {
 } from "../card/helpers";
 
 const { owner, name } = siteConfig.showcaseRepository;
-const CARDS = [
-  { theme: "dark", path: EXAMPLE_CARD_STATIC_PATH },
-  { theme: "light", path: EXAMPLE_CARD_LIGHT_STATIC_PATH },
-] as const;
+const CARDS = [{ theme: "dark", path: EXAMPLE_CARD_STATIC_PATH }] as const;
 
 for (const { theme, path } of CARDS) {
   const markup = readFileSync(join("public", path), "utf8");
