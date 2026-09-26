@@ -15,7 +15,6 @@ export const EXAMPLE_CARD_QUERY = new URLSearchParams(
 ).toString();
 
 export const EXAMPLE_CARD_STATIC_PATH = "/example-card.svg";
-export const EXAMPLE_CARD_LIGHT_STATIC_PATH = "/example-card-light.svg";
 
 export const SHOWCASE_DATA_PATH = "src/components/landing/showcase-data.json";
 
