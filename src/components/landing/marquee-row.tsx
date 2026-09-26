@@ -1,12 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import {
-  gsap,
-  MOTION,
-  ScrollTrigger,
-  useGSAP,
-} from "@/components/landing/motion/gsap";
+import { gsap, MOTION, ScrollTrigger, useGSAP } from "@/components/motion/gsap";
 import { CARD_DEFAULT_WIDTH, CARD_HEIGHT } from "@/lib/card/config";
 
 export type MarqueeItem = {

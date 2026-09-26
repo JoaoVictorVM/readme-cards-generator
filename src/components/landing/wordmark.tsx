@@ -1,12 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import {
-  gsap,
-  MOTION,
-  SplitText,
-  useGSAP,
-} from "@/components/landing/motion/gsap";
+import { gsap, MOTION, SplitText, useGSAP } from "@/components/motion/gsap";
 
 type WordmarkProps = {
   text: string;

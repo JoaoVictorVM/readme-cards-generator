@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, type ReactNode } from "react";
-import { gsap, MOTION, useGSAP } from "@/components/landing/motion/gsap";
+import { gsap, MOTION, useGSAP } from "@/components/motion/gsap";
 
 type RevealProps = {
   children: ReactNode;

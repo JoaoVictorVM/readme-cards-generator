@@ -94,12 +94,32 @@
   animation: intro-fallback 0s 2.5s forwards;
 }
 
+@keyframes skeleton-sweep {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
+.skeleton-shimmer {
+  background: linear-gradient(
+    100deg,
+    transparent 20%,
+    rgb(255 255 255 / 0.07) 50%,
+    transparent 80%
+  );
+  animation: skeleton-sweep 1.4s ease-in-out infinite;
+}
+
 .full-bleed {
   width: 100vw;
   margin-inline: calc(50% - 50vw);
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .skeleton-shimmer,
   .hero-rise,
   .hero-draw {
     animation: none;

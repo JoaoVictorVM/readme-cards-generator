@@ -144,6 +144,58 @@ for (const route of routes) {
       await expect(ui.input).toHaveValue(other);
     });
 
+    test("typing a valid url previews the pair without requests", async ({
+      page,
+    }) => {
+      const counter = countValidateRequests(page);
+      await page.goto(route.path);
+      const ui = generatorUi(page, route.dictionary);
+      const preview = page.getByTestId("generator-preview");
+      await expect(preview).toHaveAttribute("data-state", "empty");
+      await expect(preview).toContainText(generator.emptyState);
+
+      await ui.input.fill(`https://github.com/${PAIR}`);
+      await expect(preview).toHaveAttribute("data-state", "detected");
+      await expect(page.getByTestId("generator-preview-pair")).toHaveText(PAIR);
+      await expect(preview).toContainText(generator.previewReady);
+
+      await ui.input.fill("not a url");
+      await expect(preview).toHaveAttribute("data-state", "empty");
+      await expect(preview.locator("img")).toHaveCount(0);
+      expect(counter.value).toBe(0);
+    });
+
+    test("validation shows the card skeleton", async ({ page }) => {
+      await stubValidate(page, { delayMs: 1500 });
+      await page.goto(route.path);
+      const ui = generatorUi(page, route.dictionary);
+      await ui.submit(PAIR);
+      await expect(page.getByTestId("generator-preview")).toHaveAttribute(
+        "data-state",
+        "validating",
+      );
+      await expect(ui.image).toHaveAttribute("src", CARD_PATH, {
+        timeout: 5000,
+      });
+      await expect(page.getByTestId("generator-preview")).toHaveCount(0);
+    });
+
+    test("failed url does not read as ready", async ({ page }) => {
+      await stubValidate(page, {
+        status: 404,
+        body: { exists: false, error: "not_found" },
+      });
+      await page.goto(route.path);
+      const ui = generatorUi(page, route.dictionary);
+      await ui.submit(`https://github.com/${PAIR}`);
+      await expect(ui.alert).toHaveText(generator.errorNotFound);
+      const preview = page.getByTestId("generator-preview");
+      await expect(preview).toHaveAttribute("data-state", "empty");
+
+      await ui.input.fill("https://github.com/someone-else/other-repo");
+      await expect(preview).toHaveAttribute("data-state", "detected");
+    });
+
     test("snippet matches prd shape exactly", async ({ page }) => {
       await stubCard(page);
       await page.goto(route.path);

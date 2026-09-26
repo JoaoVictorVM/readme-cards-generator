@@ -3,13 +3,19 @@
 import { LoaderCircle, TriangleAlert } from "lucide-react";
 import {
   useEffect,
+  useMemo,
   useReducer,
   useRef,
   useState,
   type FormEvent as ReactFormEvent,
 } from "react";
-import { GeneratorEmptyState } from "@/components/generator/generator-empty-state";
+import {
+  GeneratorPreview,
+  type PreviewState,
+} from "@/components/generator/generator-preview";
 import { GeneratorResult } from "@/components/generator/generator-result";
+import { gsap, MOTION, useGSAP } from "@/components/motion/gsap";
+import { useMagnetic } from "@/components/motion/use-magnetic";
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/types";
 import {
@@ -65,6 +71,11 @@ export function GeneratorForm({
   const [state, dispatch] = useReducer(reduceNow, INITIAL_FORM_STATE);
   const sequenceRef = useRef(0);
   const abortRef = useRef<AbortController | null>(null);
+  const submittedRef = useRef<string | null>(null);
+  const formRef = useRef<HTMLFormElement>(null);
+  const fieldRef = useRef<HTMLDivElement>(null);
+  const submitRef = useRef<HTMLButtonElement>(null);
+  useMagnetic(submitRef);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -89,9 +100,49 @@ export function GeneratorForm({
   const error = state.status === "error" ? state.kind : null;
   const pair = visiblePair(state);
 
+  const [rejectedValue, setRejectedValue] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (state.status === "error") setRejectedValue(submittedRef.current);
+  }, [state]);
+
+  const detected = useMemo(() => {
+    if (value === rejectedValue) return null;
+    const parsed = parseRepositoryUrl(value);
+    return parsed.ok ? parsed.data : null;
+  }, [value, rejectedValue]);
+
+  const preview: PreviewState = validating
+    ? { kind: "validating" }
+    : detected
+      ? { kind: "detected", pair: detected }
+      : { kind: "empty" };
+
+  useGSAP(
+    () => {
+      if (state.status !== "error") return;
+      const mm = gsap.matchMedia();
+      mm.add(MOTION, () => {
+        gsap.to(fieldRef.current, {
+          keyframes: { x: [0, -8, 7, -5, 3, 0] },
+          duration: 0.45,
+          ease: "power1.inOut",
+        });
+        gsap.from(`#${ERROR_ID}`, {
+          y: -6,
+          opacity: 0,
+          duration: 0.4,
+          ease: "power3.out",
+        });
+      });
+    },
+    { scope: formRef, dependencies: [state], revertOnUpdate: true },
+  );
+
   const handleSubmit = (event: ReactFormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (validating || coolingDown) return;
+    submittedRef.current = value;
 
     const parsed = parseRepositoryUrl(value);
     if (!parsed.ok) {
@@ -112,8 +163,11 @@ export function GeneratorForm({
   return (
     <div className="flex flex-col gap-12" lang={locale}>
       <form
+        ref={formRef}
         onSubmit={handleSubmit}
         noValidate
+        data-hero-intro
+        data-hero-fade
         className="flex w-full max-w-2xl flex-col gap-3"
       >
         <label
@@ -122,7 +176,7 @@ export function GeneratorForm({
         >
           {dictionary.urlFieldLabel}
         </label>
-        <div className="flex flex-col gap-3 sm:flex-row">
+        <div ref={fieldRef} className="flex flex-col gap-3 sm:flex-row">
           <input
             id={INPUT_ID}
             name="repository"
@@ -141,6 +195,7 @@ export function GeneratorForm({
             )}
           />
           <button
+            ref={submitRef}
             type="submit"
             disabled={validating || coolingDown}
             className="inline-flex h-12 shrink-0 cursor-pointer items-center justify-center gap-2 rounded-full bg-accent px-6 text-sm font-semibold text-accent-foreground transition-opacity hover:opacity-85 disabled:cursor-not-allowed disabled:opacity-50"
@@ -174,13 +229,15 @@ export function GeneratorForm({
       </form>
       {pair ? (
         <GeneratorResult
+          key={`${pair.owner}/${pair.repo}`}
           owner={pair.owner}
           repo={pair.repo}
           cardOrigin={cardOrigin}
           dictionary={dictionary}
+          pending={validating}
         />
       ) : (
-        <GeneratorEmptyState dictionary={dictionary} />
+        <GeneratorPreview state={preview} dictionary={dictionary} />
       )}
     </div>
   );

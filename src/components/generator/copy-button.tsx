@@ -1,7 +1,8 @@
 "use client";
 
 import { Check, Copy } from "lucide-react";
-import { useEffect, useState, type RefObject } from "react";
+import { useEffect, useRef, useState, type RefObject } from "react";
+import { gsap, MOTION, useGSAP } from "@/components/motion/gsap";
 import type { Dictionary } from "@/i18n/types";
 import { GENERATOR_COPY_FEEDBACK_MS } from "@/lib/generator";
 import { cn } from "@/lib/utils";
@@ -56,11 +57,33 @@ export function CopyButton({ text, targetRef, dictionary }: CopyButtonProps) {
       .catch(fallback);
   };
 
+  const buttonRef = useRef<HTMLButtonElement>(null);
+
+  useGSAP(
+    () => {
+      if (state !== "copied") return;
+      const mm = gsap.matchMedia();
+      mm.add(MOTION, () => {
+        gsap.fromTo(
+          "svg",
+          { scale: 0.3, rotation: -60 },
+          { scale: 1, rotation: 0, duration: 0.5, ease: "back.out(2.5)" },
+        );
+      });
+    },
+    {
+      scope: buttonRef,
+      dependencies: [state, confirmations],
+      revertOnUpdate: true,
+    },
+  );
+
   const Icon = state === "copied" ? Check : Copy;
 
   return (
     <div className="flex flex-wrap items-center gap-3">
       <button
+        ref={buttonRef}
         type="button"
         onClick={copy}
         className={cn(

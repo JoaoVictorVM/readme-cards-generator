@@ -3,7 +3,7 @@
 import Lenis from "lenis";
 import "lenis/dist/lenis.css";
 import { useEffect } from "react";
-import { gsap, MOTION, ScrollTrigger } from "@/components/landing/motion/gsap";
+import { gsap, MOTION, ScrollTrigger } from "@/components/motion/gsap";
 
 export function SmoothScroll() {
   useEffect(() => {

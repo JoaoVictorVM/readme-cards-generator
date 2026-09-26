@@ -2,12 +2,7 @@
 
 import { LoaderCircle } from "lucide-react";
 import { useRef } from "react";
-import {
-  DESKTOP,
-  gsap,
-  MOTION,
-  useGSAP,
-} from "@/components/landing/motion/gsap";
+import { DESKTOP, gsap, MOTION, useGSAP } from "@/components/motion/gsap";
 import type { Dictionary } from "@/i18n/types";
 
 type HowItWorksProps = {

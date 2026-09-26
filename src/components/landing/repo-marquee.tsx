@@ -1,6 +1,6 @@
 import type { ShowcaseData } from "@/components/landing/showcase-types";
 import { MarqueeRow, type MarqueeItem } from "@/components/landing/marquee-row";
-import { Reveal } from "@/components/landing/motion/reveal";
+import { Reveal } from "@/components/motion/reveal";
 import type { Dictionary } from "@/i18n/types";
 import { renderCard } from "@/lib/card";
 
