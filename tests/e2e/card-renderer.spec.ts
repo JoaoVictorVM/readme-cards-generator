@@ -6,7 +6,7 @@ import { resolveLanguageIcon } from "../../src/lib/language-icon";
 import { siteConfig } from "../../src/lib/site-config";
 
 const SVG_TYPE = "image/svg+xml; charset=utf-8";
-const MISSING = { owner: "badge-generate-no-such-owner-7f3a", repo: "nope" };
+const MISSING = { owner: "cards-generator-no-such-owner-7f3a", repo: "nope" };
 const LONG_OWNER = "o".repeat(101);
 
 const { owner, name } = siteConfig.showcaseRepository;

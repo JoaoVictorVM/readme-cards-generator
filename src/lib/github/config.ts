@@ -8,7 +8,7 @@ export const GITHUB_ACCEPT_HEADER = "application/vnd.github+json";
 
 export const GITHUB_API_VERSION = "2022-11-28";
 
-export const GITHUB_USER_AGENT = `badge-generate/1.0 (+${siteConfig.repositoryUrl})`;
+export const GITHUB_USER_AGENT = `cards-generator/1.0 (+${siteConfig.repositoryUrl})`;
 
 export const GITHUB_SUCCESS_STATUS = 200;
 

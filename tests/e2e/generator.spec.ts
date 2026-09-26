@@ -17,7 +17,7 @@ import {
   SVG_TYPE,
 } from "./generator-helpers";
 
-const MISSING = { owner: "badge-generate-no-such-owner-7f3a", repo: "nope" };
+const MISSING = { owner: "cards-generator-no-such-owner-7f3a", repo: "nope" };
 const PAIR = SHOWCASE_PAIR;
 const CARD_PATH = SHOWCASE_CARD_PATH;
 const SNIPPET = `[![${PAIR}](${getCanonicalHost()}${CARD_PATH})](https://github.com/${PAIR})`;

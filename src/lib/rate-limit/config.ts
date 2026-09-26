@@ -13,6 +13,6 @@ export const RATE_LIMIT_IDENTIFIER_MAX_LENGTH = 64;
 export const RATE_LIMIT_ANONYMOUS_IDENTIFIER = "anonymous";
 
 export const RATE_LIMIT_KEY_PREFIXES = {
-  card: "badge-generate:rl:card",
-  validate: "badge-generate:rl:validate",
+  card: "cards-generator:rl:card",
+  validate: "cards-generator:rl:validate",
 } as const;

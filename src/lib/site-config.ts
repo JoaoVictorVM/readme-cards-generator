@@ -1,5 +1,5 @@
 export const siteConfig = {
-  name: "Badge Generate",
+  name: "Cards Generator",
   repositoryUrl: "https://github.com/JoaoVictorVM/readme-cards-generator",
   showcaseRepository: { owner: "vercel", name: "next.js" },
 } as const;

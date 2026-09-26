@@ -8,7 +8,7 @@ export const DEVICON_DEFAULT_VARIANT = "original";
 
 export const DEVICON_ACCEPT_HEADER = "image/svg+xml";
 
-export const DEVICON_USER_AGENT = `badge-generate/1.0 (+${siteConfig.repositoryUrl})`;
+export const DEVICON_USER_AGENT = `cards-generator/1.0 (+${siteConfig.repositoryUrl})`;
 
 export const DEVICON_REQUEST_TIMEOUT_MS = 2000;
 

@@ -3,7 +3,7 @@ import { siteConfig } from "../../src/lib/site-config";
 
 const GITHUB_TIMEOUT_MS = 5000;
 
-const MISSING = { owner: "badge-generate-no-such-owner-7f3a", repo: "nope" };
+const MISSING = { owner: "cards-generator-no-such-owner-7f3a", repo: "nope" };
 
 function title(markup = "") {
   return /<title>([^<]*)<\/title>/.exec(markup)?.[1] ?? "";
@@ -83,7 +83,7 @@ test.describe("github outcome mapping through the validation endpoint", () => {
     });
 
     const missing = await request.get(
-      "/api/validate?owner=badge-generate-no-such-owner-7f3a&repo=nope",
+      "/api/validate?owner=cards-generator-no-such-owner-7f3a&repo=nope",
     );
     expect(missing.status()).toBe(404);
     expect(await missing.json()).toEqual({

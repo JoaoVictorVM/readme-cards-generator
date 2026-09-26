@@ -2,7 +2,7 @@ import type { Dictionary } from "../types";
 
 const dictionary: Dictionary = {
   common: {
-    productName: "Badge Generate",
+    productName: "Cards Generator",
     skipToContent: "Skip to content",
     loading: "Loading...",
   },

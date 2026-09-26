@@ -2,7 +2,7 @@ import { expect, test } from "@playwright/test";
 import { siteConfig } from "../../src/lib/site-config";
 
 const GITHUB_TIMEOUT_MS = 5000;
-const MISSING = { owner: "badge-generate-no-such-owner-7f3a", repo: "nope" };
+const MISSING = { owner: "cards-generator-no-such-owner-7f3a", repo: "nope" };
 
 test.describe("validate endpoint", () => {
   test("existing repository returns 200 shape", async ({ request }) => {
