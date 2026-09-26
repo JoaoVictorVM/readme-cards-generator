@@ -3,7 +3,7 @@
 import { useMemo, useRef, useState } from "react";
 import { EXAMPLE_CARD_QUERY_PARAMETERS } from "@/components/landing/config";
 import { CopyExampleUrl } from "@/components/landing/copy-example-url";
-import { gsap, MOTION, useGSAP } from "@/components/landing/motion/gsap";
+import { gsap, MOTION, useGSAP } from "@/components/motion/gsap";
 import type { ShowcaseEntry } from "@/components/landing/showcase-types";
 import { locales, type Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/types";

@@ -7,8 +7,8 @@ import {
 } from "@/components/landing/example-url";
 import { HowItWorks } from "@/components/landing/how-it-works";
 import { LandingHero } from "@/components/landing/landing-hero";
-import { Reveal } from "@/components/landing/motion/reveal";
-import { SmoothScroll } from "@/components/landing/motion/smooth-scroll";
+import { Reveal } from "@/components/motion/reveal";
+import { SmoothScroll } from "@/components/motion/smooth-scroll";
 import { RepoMarquee } from "@/components/landing/repo-marquee";
 import showcaseData from "@/components/landing/showcase-data.json";
 import type { ShowcaseData } from "@/components/landing/showcase-types";

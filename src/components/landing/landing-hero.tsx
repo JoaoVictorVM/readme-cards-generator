@@ -10,7 +10,7 @@ import {
   MOTION,
   SplitText,
   useGSAP,
-} from "@/components/landing/motion/gsap";
+} from "@/components/motion/gsap";
 import type { Dictionary } from "@/i18n/types";
 
 type LandingHeroProps = {
