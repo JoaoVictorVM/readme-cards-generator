@@ -27,6 +27,20 @@ const dictionary: Dictionary = {
     exampleCardCaption: "Example: {repository}",
     heroEyebrow: "One line of Markdown. One SVG card.",
     ctaParameters: "See parameters",
+    scrollHint: "Scroll to build the card",
+    assemblyEyebrow: "One URL, one card",
+    assemblyTitle: "From URL to card",
+    anatomyTitle: "Anatomy of a card",
+    anatomyIconTitle: "Language icon",
+    anatomyIconDescription:
+      "The repository's main language becomes the icon, on a tile tinted with that language's color.",
+    anatomyActivityTitle: "Recent activity",
+    anatomyActivityDescription:
+      "The dot stays green for 30 days after the last push, amber up to 180 and gray after that.",
+    anatomyButtonTitle: "Link to the repository",
+    anatomyButtonDescription:
+      "The button goes straight to the repository page on GitHub.",
+    closingTitle: "Your README deserves a card.",
     exampleMarkdownLabel: "Markdown that renders the card below",
     howItWorksTitle: "How it works",
     marqueeTitle: "Works with any public repository",

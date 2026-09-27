@@ -25,6 +25,20 @@ const dictionary = {
     exampleCardCaption: "Exemplo: {repository}",
     heroEyebrow: "Uma linha de Markdown. Um card SVG.",
     ctaParameters: "Ver parâmetros",
+    scrollHint: "Role para montar o card",
+    assemblyEyebrow: "Uma URL, um card",
+    assemblyTitle: "Da URL ao card",
+    anatomyTitle: "Anatomia do card",
+    anatomyIconTitle: "Ícone da linguagem",
+    anatomyIconDescription:
+      "A linguagem principal do repositório vira o ícone, sobre um fundo tingido com a cor dela.",
+    anatomyActivityTitle: "Atividade recente",
+    anatomyActivityDescription:
+      "A bolinha fica verde até 30 dias depois do último push, âmbar até 180 e cinza a partir daí.",
+    anatomyButtonTitle: "Link para o repositório",
+    anatomyButtonDescription:
+      "O botão leva direto à página do repositório no GitHub.",
+    closingTitle: "Seu README merece um card.",
     exampleMarkdownLabel: "Markdown que gera o card abaixo",
     howItWorksTitle: "Como funciona",
     marqueeTitle: "Funciona com qualquer repositório público",

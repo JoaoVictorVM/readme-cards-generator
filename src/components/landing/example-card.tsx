@@ -20,19 +20,16 @@ export function ExampleCard({ dictionary, markdown }: ExampleCardProps) {
         {dictionary.landing.exampleMarkdownLabel}
       </figcaption>
       <code
-        data-hero-intro
         aria-label={dictionary.landing.exampleMarkdownLabel}
-        className="block rounded-site border bg-surface px-4 py-3 font-mono text-xs leading-relaxed break-all text-muted select-all sm:text-[13px]"
+        className="block rounded-2xl border bg-surface px-4 py-3 font-mono text-xs leading-relaxed break-all text-muted select-all sm:text-[13px]"
       >
         <span className="text-foreground">![{name}]</span>({markdown})
       </code>
       <span
-        data-hero-intro
-        data-hero-connector
         aria-hidden="true"
         className="ml-8 block h-8 w-px origin-top bg-border"
       />
-      <Tilt data-hero-intro>
+      <Tilt className="card-frame">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={EXAMPLE_CARD_STATIC_PATH}
@@ -45,7 +42,7 @@ export function ExampleCard({ dictionary, markdown }: ExampleCardProps) {
           className="block h-auto max-w-full"
         />
       </Tilt>
-      <p data-hero-intro className="mt-3 font-mono text-xs text-muted">
+      <p className="caption mt-4">
         {format(dictionary.landing.exampleCardCaption, { repository })}
       </p>
     </figure>
