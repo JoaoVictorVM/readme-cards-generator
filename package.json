@@ -2,6 +2,7 @@
   "name": "readme-cards-generator",
   "version": "0.1.0",
   "private": true,
+  "license": "MIT",
   "scripts": {
     "dev": "bun --bun next dev",
     "build": "bun --bun next build",
