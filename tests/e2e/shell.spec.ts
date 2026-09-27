@@ -33,7 +33,7 @@ for (const route of routes) {
     const background = await page.evaluate(
       () => getComputedStyle(document.body).backgroundColor,
     );
-    expect(background).toBe("rgb(0, 0, 0)");
+    expect(background).toBe("rgb(17, 17, 16)");
   });
 }
 

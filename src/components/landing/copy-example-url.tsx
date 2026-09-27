@@ -45,10 +45,7 @@ export function CopyExampleUrl({
           .then(() => setCopied(true))
           .catch(() => {});
       }}
-      className={cn(
-        "inline-flex h-11 shrink-0 cursor-pointer items-center gap-2 rounded-site border px-4 text-sm font-medium transition-colors hover:border-foreground",
-        copied && "border-foreground",
-      )}
+      className={cn("btn-outline shrink-0", copied && "border-foreground")}
     >
       <Icon aria-hidden="true" className="size-4" />
       {copied ? copiedLabel : copyLabel}

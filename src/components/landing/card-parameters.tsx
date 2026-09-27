@@ -1,5 +1,6 @@
 import { CopyExampleUrl } from "@/components/landing/copy-example-url";
 import { PARAMETER_ROWS } from "@/components/landing/example-url";
+import { SectionTitle } from "@/components/motion/section-title";
 import { format } from "@/i18n/get-dictionary";
 import type { Dictionary } from "@/i18n/types";
 
@@ -29,23 +30,18 @@ export function CardParameters({
   return (
     <section
       aria-labelledby="parameters"
-      className="flex scroll-mt-24 flex-col gap-8"
+      className="flex scroll-mt-24 flex-col gap-12"
     >
-      <div className="flex flex-col gap-2">
-        <h2
-          id="parameters"
-          className="text-2xl font-semibold tracking-tight sm:text-3xl"
-        >
-          {landing.parametersTitle}
-        </h2>
-        <p className="max-w-2xl text-muted">{landing.parametersIntro}</p>
+      <div className="flex flex-col gap-5">
+        <SectionTitle id="parameters">{landing.parametersTitle}</SectionTitle>
+        <p className="type-lead max-w-2xl">{landing.parametersIntro}</p>
       </div>
       <div className="overflow-x-auto border-t">
         <table
           aria-labelledby="parameters"
           className="w-full min-w-[32rem] text-left text-sm"
         >
-          <thead className="border-b font-mono text-xs tracking-wide text-muted uppercase">
+          <thead className="eyebrow border-b">
             <tr>
               <th scope="col" className="py-3 pr-4 font-medium">
                 {landing.parameterNameHeader}
@@ -78,11 +74,9 @@ export function CardParameters({
         </table>
       </div>
       <div className="flex flex-col gap-3">
-        <p className="font-mono text-xs tracking-wide text-muted uppercase">
-          {landing.exampleUrlLabel}
-        </p>
+        <p className="eyebrow">{landing.exampleUrlLabel}</p>
         <div className="flex flex-col gap-3 sm:flex-row sm:items-start">
-          <code className="block min-w-0 flex-1 rounded-site border bg-surface px-4 py-3 font-mono text-sm leading-relaxed break-all select-all">
+          <code className="block min-w-0 flex-1 rounded-2xl border bg-surface px-5 py-3.5 font-mono text-sm leading-relaxed break-all select-all">
             {exampleUrl}
           </code>
           <CopyExampleUrl

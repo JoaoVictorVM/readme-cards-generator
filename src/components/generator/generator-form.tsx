@@ -14,8 +14,6 @@ import {
   type PreviewState,
 } from "@/components/generator/generator-preview";
 import { GeneratorResult } from "@/components/generator/generator-result";
-import { gsap, MOTION, useGSAP } from "@/components/motion/gsap";
-import { useMagnetic } from "@/components/motion/use-magnetic";
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/types";
 import {
@@ -72,10 +70,6 @@ export function GeneratorForm({
   const sequenceRef = useRef(0);
   const abortRef = useRef<AbortController | null>(null);
   const submittedRef = useRef<string | null>(null);
-  const formRef = useRef<HTMLFormElement>(null);
-  const fieldRef = useRef<HTMLDivElement>(null);
-  const submitRef = useRef<HTMLButtonElement>(null);
-  useMagnetic(submitRef);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -118,27 +112,6 @@ export function GeneratorForm({
       ? { kind: "detected", pair: detected }
       : { kind: "empty" };
 
-  useGSAP(
-    () => {
-      if (state.status !== "error") return;
-      const mm = gsap.matchMedia();
-      mm.add(MOTION, () => {
-        gsap.to(fieldRef.current, {
-          keyframes: { x: [0, -8, 7, -5, 3, 0] },
-          duration: 0.45,
-          ease: "power1.inOut",
-        });
-        gsap.from(`#${ERROR_ID}`, {
-          y: -6,
-          opacity: 0,
-          duration: 0.4,
-          ease: "power3.out",
-        });
-      });
-    },
-    { scope: formRef, dependencies: [state], revertOnUpdate: true },
-  );
-
   const handleSubmit = (event: ReactFormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (validating || coolingDown) return;
@@ -163,20 +136,20 @@ export function GeneratorForm({
   return (
     <div className="flex flex-col gap-12" lang={locale}>
       <form
-        ref={formRef}
         onSubmit={handleSubmit}
         noValidate
-        data-hero-intro
-        data-hero-fade
-        className="flex w-full max-w-2xl flex-col gap-3"
+        className="gen-rise-2 flex w-full max-w-2xl flex-col gap-3"
       >
-        <label
-          htmlFor={INPUT_ID}
-          className="font-mono text-xs tracking-wide text-muted uppercase"
-        >
+        <label htmlFor={INPUT_ID} className="eyebrow">
           {dictionary.urlFieldLabel}
         </label>
-        <div ref={fieldRef} className="flex flex-col gap-3 sm:flex-row">
+        <div
+          className={cn(
+            "flex items-center gap-2 rounded-full border border-border-strong bg-surface p-1.5 pl-5 transition-[border-color,box-shadow] duration-200 ease-ui focus-within:border-white/50 focus-within:shadow-[0_0_0_4px_rgb(255_255_255/0.08)]",
+            error !== null &&
+              "border-error focus-within:border-error focus-within:shadow-[0_0_0_4px_rgb(255_107_107/0.15)]",
+          )}
+        >
           <input
             id={INPUT_ID}
             name="repository"
@@ -189,16 +162,12 @@ export function GeneratorForm({
             onChange={(event) => setValue(event.target.value)}
             aria-invalid={error !== null ? "true" : undefined}
             aria-describedby={error !== null ? ERROR_ID : undefined}
-            className={cn(
-              "h-12 w-full min-w-0 rounded-site border bg-surface px-4 font-mono text-sm outline-none placeholder:text-muted/60 focus-visible:border-foreground focus-visible:outline-none sm:flex-1",
-              error !== null && "border-warning",
-            )}
+            className="h-10 min-w-0 flex-1 bg-transparent font-mono text-sm outline-none placeholder:text-muted/60 focus-visible:outline-none"
           />
           <button
-            ref={submitRef}
             type="submit"
             disabled={validating || coolingDown}
-            className="inline-flex h-12 shrink-0 cursor-pointer items-center justify-center gap-2 rounded-full bg-accent px-6 text-sm font-semibold text-accent-foreground transition-opacity hover:opacity-85 disabled:cursor-not-allowed disabled:opacity-50"
+            className="btn-primary h-10 shrink-0 px-5"
           >
             {validating ? (
               <LoaderCircle
@@ -217,12 +186,9 @@ export function GeneratorForm({
           <p
             id={ERROR_ID}
             role="alert"
-            className="flex items-center gap-2 text-sm"
+            className="flex items-center gap-2 pl-5 text-sm text-error"
           >
-            <TriangleAlert
-              aria-hidden="true"
-              className="size-4 shrink-0 text-warning"
-            />
+            <TriangleAlert aria-hidden="true" className="size-4 shrink-0" />
             {dictionary[ERROR_KEYS[error]]}
           </p>
         ) : null}

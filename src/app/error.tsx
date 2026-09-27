@@ -20,7 +20,7 @@ export default function GlobalError({
 
   return (
     <SiteShell locale={defaultLocale}>
-      <section className="flex flex-col items-start gap-4">
+      <section className="flex flex-col items-start gap-4 py-24">
         <h1 className="text-3xl font-semibold tracking-tight">
           {dictionary.errors.unexpectedTitle}
         </h1>

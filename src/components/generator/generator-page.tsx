@@ -1,5 +1,4 @@
 import { GeneratorForm } from "@/components/generator/generator-form";
-import { GeneratorIntro } from "@/components/generator/generator-intro";
 import type { Locale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/get-dictionary";
 import { getCanonicalHost } from "@/lib/site-config";
@@ -12,20 +11,12 @@ export function GeneratorPage({ locale }: GeneratorPageProps) {
   const dictionary = getDictionary(locale);
 
   return (
-    <GeneratorIntro>
-      <div className="flex flex-col gap-4">
-        <h1
-          data-hero-intro
-          data-hero-title
-          className="text-5xl font-semibold tracking-[-0.035em] sm:text-6xl"
-        >
+    <section className="flex flex-col gap-12 py-16 sm:py-24">
+      <div className="flex flex-col gap-6">
+        <h1 className="type-generator gen-title">
           {dictionary.generator.title}
         </h1>
-        <p
-          data-hero-intro
-          data-hero-fade
-          className="max-w-xl text-lg text-muted"
-        >
+        <p className="type-lead gen-rise-1 max-w-xl">
           {dictionary.generator.subtitle}
         </p>
       </div>
@@ -34,6 +25,6 @@ export function GeneratorPage({ locale }: GeneratorPageProps) {
         dictionary={dictionary.generator}
         cardOrigin={getCanonicalHost()}
       />
-    </GeneratorIntro>
+    </section>
   );
 }

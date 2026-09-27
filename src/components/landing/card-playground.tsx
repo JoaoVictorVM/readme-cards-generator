@@ -4,6 +4,7 @@ import { useMemo, useRef, useState } from "react";
 import { EXAMPLE_CARD_QUERY_PARAMETERS } from "@/components/landing/config";
 import { CopyExampleUrl } from "@/components/landing/copy-example-url";
 import { gsap, MOTION, useGSAP } from "@/components/motion/gsap";
+import { SectionTitle } from "@/components/motion/section-title";
 import type { ShowcaseEntry } from "@/components/landing/showcase-types";
 import { locales, type Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/types";
@@ -45,9 +46,7 @@ function OptionGroup<T extends string>({
 }: OptionGroupProps<T>) {
   return (
     <fieldset className="flex flex-col gap-3">
-      <legend className="mb-3 font-mono text-xs tracking-wide text-muted uppercase">
-        {legend}
-      </legend>
+      <legend className="eyebrow mb-3">{legend}</legend>
       <div className="inline-flex w-fit rounded-full border p-1">
         {options.map((option) => (
           <label
@@ -124,15 +123,10 @@ export function CardPlayground({
   const light = theme === CARD_THEMES.light;
 
   return (
-    <section aria-labelledby="playground" className="flex flex-col gap-10">
-      <div className="flex flex-col gap-2">
-        <h2
-          id="playground"
-          className="text-3xl font-semibold tracking-[-0.03em] sm:text-4xl"
-        >
-          {landing.playgroundTitle}
-        </h2>
-        <p className="max-w-2xl text-muted">{landing.playgroundIntro}</p>
+    <section aria-labelledby="playground" className="flex flex-col gap-12">
+      <div className="flex flex-col gap-5">
+        <SectionTitle id="playground">{landing.playgroundTitle}</SectionTitle>
+        <p className="type-lead max-w-2xl">{landing.playgroundIntro}</p>
       </div>
 
       <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_18rem] lg:gap-12">
@@ -141,8 +135,10 @@ export function CardPlayground({
           data-playground-stage
           data-theme={theme}
           className={cn(
-            "flex min-h-[14rem] items-center justify-center overflow-hidden rounded-2xl border p-6 transition-colors duration-700 sm:min-h-[22rem] sm:p-10",
-            light ? "border-transparent bg-foreground" : "bg-surface",
+            "card-frame flex min-h-[14rem] items-center justify-center overflow-hidden border p-6 transition-colors duration-700 sm:min-h-[24rem] sm:p-10",
+            light
+              ? "border-transparent bg-foreground"
+              : "stage-grid bg-surface",
           )}
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -180,10 +176,7 @@ export function CardPlayground({
           />
           <div className="flex flex-col gap-3">
             <div className="flex items-baseline justify-between">
-              <label
-                htmlFor="playground-width"
-                className="font-mono text-xs tracking-wide text-muted uppercase"
-              >
+              <label htmlFor="playground-width" className="eyebrow">
                 {landing.playgroundWidthLabel}
               </label>
               <output
@@ -208,13 +201,11 @@ export function CardPlayground({
       </div>
 
       <div className="flex flex-col gap-3">
-        <p className="font-mono text-xs tracking-wide text-muted uppercase">
-          {landing.playgroundUrlLabel}
-        </p>
+        <p className="eyebrow">{landing.playgroundUrlLabel}</p>
         <div className="flex flex-col gap-3 sm:flex-row sm:items-start">
           <code
             data-playground-url
-            className="block min-w-0 flex-1 rounded-site border bg-surface px-4 py-3 font-mono text-sm leading-relaxed break-all select-all"
+            className="block min-w-0 flex-1 rounded-2xl border bg-surface px-5 py-3.5 font-mono text-sm leading-relaxed break-all select-all"
           >
             {url}
           </code>

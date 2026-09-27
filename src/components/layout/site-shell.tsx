@@ -15,7 +15,7 @@ export function SiteShell({ locale, children }: SiteShellProps) {
   return (
     <div lang={locale} className="flex min-h-dvh flex-col">
       <SiteHeader locale={locale} dictionary={dictionary} />
-      <main id="content" className="mx-auto w-full max-w-5xl flex-1 px-6 py-12">
+      <main id="content" className="container-site flex-1">
         {children}
       </main>
       <SiteFooter dictionary={dictionary} />

@@ -8,7 +8,12 @@ import { gsap, MOTION, ScrollTrigger } from "@/components/motion/gsap";
 export function SmoothScroll() {
   useEffect(() => {
     if (!window.matchMedia(MOTION).matches) return;
-    const lenis = new Lenis({ anchors: true, autoRaf: false });
+    const lenis = new Lenis({
+      anchors: true,
+      autoRaf: false,
+      duration: 1.1,
+      easing: (t) => 1 - Math.pow(1 - t, 4),
+    });
     lenis.on("scroll", ScrollTrigger.update);
     const tick = (time: number) => lenis.raf(time * 1000);
     gsap.ticker.add(tick);

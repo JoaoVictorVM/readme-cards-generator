@@ -11,12 +11,12 @@ type SiteHeaderProps = {
 
 export function SiteHeader({ locale, dictionary }: SiteHeaderProps) {
   return (
-    <header className="border-b border-[var(--color-border)]">
-      <div className="mx-auto flex w-full max-w-5xl items-center justify-between px-6 py-4">
+    <header className="border-b">
+      <div className="container-site flex h-16 items-center justify-between">
         <Link
           href={localeHome(locale)}
           aria-label={dictionary.header.homeLinkLabel}
-          className="text-base font-semibold tracking-tight"
+          className="font-mono text-sm tracking-tight"
         >
           {dictionary.common.productName}
         </Link>
