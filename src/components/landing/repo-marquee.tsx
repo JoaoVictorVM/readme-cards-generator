@@ -27,11 +27,8 @@ export function RepoMarquee({ dictionary, data }: RepoMarqueeProps) {
       aria-labelledby="marquee"
       className="full-bleed flex flex-col gap-10"
     >
-      <Reveal className="mx-auto w-full max-w-5xl px-6">
-        <h2
-          id="marquee"
-          className="font-mono text-xs tracking-wide text-muted uppercase"
-        >
+      <Reveal className="container-site">
+        <h2 id="marquee" className="eyebrow">
           {dictionary.landing.marqueeTitle}
         </h2>
       </Reveal>
