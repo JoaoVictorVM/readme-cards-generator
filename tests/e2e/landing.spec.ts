@@ -43,9 +43,11 @@ for (const route of routes) {
       await page.setViewportSize({ width: 1440, height: 900 });
       await page.goto(route.path);
       const targets = [
+        page.getByText(landing.heroEyebrow, { exact: true }),
         page.getByRole("heading", { level: 1, name: landing.title }),
-        page.getByRole("link", { name: landing.ctaGenerate, exact: true }),
-        page.locator("figure img"),
+        page
+          .getByRole("link", { name: landing.ctaGenerate, exact: true })
+          .first(),
       ];
       for (const target of targets) {
         await expect(target).toBeVisible();
@@ -85,12 +87,38 @@ for (const route of routes) {
 
     test("cta links to locale generator", async ({ page }) => {
       await page.goto(route.path);
-      const cta = page.getByRole("link", {
+      const ctas = page.getByRole("link", {
         name: landing.ctaGenerate,
         exact: true,
       });
-      await expect(cta).toHaveAttribute("href", route.cta);
-      expect(await cta.evaluate((node) => node.tagName)).toBe("A");
+      await expect(ctas).toHaveCount(2);
+      for (const cta of await ctas.all()) {
+        await expect(cta).toHaveAttribute("href", route.cta);
+        expect(await cta.evaluate((node) => node.tagName)).toBe("A");
+      }
+    });
+
+    test("anatomy lists three annotated parts", async ({ page }) => {
+      await page.goto(route.path);
+      const section = page.getByRole("region", { name: landing.anatomyTitle });
+      const notes = section.locator("ol > li");
+      await expect(notes).toHaveCount(3);
+      await expect(notes.nth(0)).toContainText(landing.anatomyIconTitle);
+      await expect(notes.nth(1)).toContainText(landing.anatomyActivityTitle);
+      await expect(notes.nth(2)).toContainText(landing.anatomyButtonTitle);
+      await expect(section.locator("svg title")).toHaveText(REPOSITORY);
+    });
+
+    test("closing repeats the call to action", async ({ page }) => {
+      await page.goto(route.path);
+      const section = page.getByRole("region", { name: landing.closingTitle });
+      await expect(
+        section.getByRole("link", { name: landing.ctaGenerate, exact: true }),
+      ).toHaveAttribute("href", route.cta);
+      await expect(section.locator("figure img")).toHaveAttribute(
+        "src",
+        EXAMPLE_CARD_STATIC_PATH,
+      );
     });
 
     test("how it works lists exactly three steps", async ({ page }) => {
